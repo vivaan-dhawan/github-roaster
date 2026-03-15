@@ -41,7 +41,7 @@ npm run dev
 We support multiple providers so you can get roasted on a budget:
 - **OpenAI** (default, `gpt-4o`)
 - **Anthropic** (`claude-sonnet-4-6`)
-- **OpenRouter** (`google/gemini-2.5-flash`)
+- **OpenRouter** (`stepfun/step-3.5-flash:free`)
 - **Ollama** (fully local, free, `llama3.2`)
 
 Set `AI_PROVIDER` and `AI_MODEL` in your `.env.local`.
