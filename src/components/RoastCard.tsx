@@ -1,5 +1,6 @@
 import { Copy, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 
 export default function RoastCard({ roast, username }: { roast: string, username: string }) {
   const copyToClipboard = () => {
@@ -21,12 +22,21 @@ export default function RoastCard({ roast, username }: { roast: string, username
       <div className="p-8 md:p-10 relative">
         <div className="absolute top-6 right-8 text-6xl opacity-10 blur-sm pointer-events-none">💀</div>
         
-        <div className="text-xl md:text-2xl font-medium leading-relaxed text-zinc-200 space-y-6 whitespace-pre-wrap relative z-10">
-          {roast.split('\n\n').map((paragraph, idx) => (
-            <p key={idx} className={idx === 0 ? "font-bold text-white text-3xl mb-8" : ""}>
-              {paragraph}
-            </p>
-          ))}
+        <div className="text-base md:text-lg font-medium leading-relaxed text-zinc-200 space-y-4 relative z-10 prose prose-invert max-w-none">
+          <ReactMarkdown
+            components={{
+              h1: ({node, ...props}) => <h1 className="font-bold text-white text-2xl md:text-3xl mb-6" {...props} />,
+              h2: ({node, ...props}) => <h2 className="font-bold text-white text-xl md:text-2xl mb-4 mt-6" {...props} />,
+              h3: ({node, ...props}) => <h3 className="font-bold text-white text-lg md:text-xl mb-4 mt-6" {...props} />,
+              p: ({node, ...props}) => <p className="mb-4" {...props} />,
+              strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
+              ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-4 space-y-2" {...props} />,
+              ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-4 space-y-2" {...props} />,
+              li: ({node, ...props}) => <li {...props} />
+            }}
+          >
+            {roast}
+          </ReactMarkdown>
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-between items-center relative z-10 pt-6 border-t border-zinc-800/50">
