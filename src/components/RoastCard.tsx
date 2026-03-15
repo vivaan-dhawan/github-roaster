@@ -1,31 +1,47 @@
-import { Copy } from 'lucide-react';
+import { Copy, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function RoastCard({ roast }: { roast: string }) {
+export default function RoastCard({ roast, username }: { roast: string, username: string }) {
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(roast);
+    navigator.clipboard.writeText(`GitHub Roast for @${username}:\n\n${roast}\n\n🔥 Get roasted at: [YOUR_SITE_URL]`);
     alert('Copied to clipboard!');
   };
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="relative max-w-2xl w-full mx-auto p-8 rounded-2xl bg-gradient-to-br from-red-950 to-black border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.2)] mt-8"
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="glass-panel w-full mx-auto rounded-3xl overflow-hidden relative group"
     >
-      <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-5xl animate-bounce">🔥</div>
+      {/* Animated gradient border effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#ff4500]/20 via-transparent to-[#ff8c00]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
-      <div className="text-xl md:text-2xl font-serif leading-relaxed text-red-50 space-y-4 whitespace-pre-wrap">
-        {roast}
-      </div>
+      <div className="h-2 w-full bg-gradient-to-r from-[#ff4500] to-[#ff8c00]" />
+      
+      <div className="p-8 md:p-10 relative">
+        <div className="absolute top-6 right-8 text-6xl opacity-10 blur-sm pointer-events-none">💀</div>
+        
+        <div className="text-xl md:text-2xl font-medium leading-relaxed text-zinc-200 space-y-6 whitespace-pre-wrap relative z-10">
+          {roast.split('\n\n').map((paragraph, idx) => (
+            <p key={idx} className={idx === 0 ? "font-bold text-white text-3xl mb-8" : ""}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
 
-      <button 
-        onClick={copyToClipboard}
-        className="absolute bottom-4 right-4 p-2 text-red-400 hover:text-red-200 transition-colors bg-red-950/50 rounded-full hover:bg-red-900/50"
-        title="Copy to clipboard"
-      >
-        <Copy size={20} />
-      </button>
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-between items-center relative z-10 pt-6 border-t border-zinc-800/50">
+          <div className="text-zinc-500 font-mono text-sm">
+            Target: @{username}
+          </div>
+          <button 
+            onClick={copyToClipboard}
+            className="flex items-center gap-2 px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-orange-400 rounded-xl transition-all border border-zinc-800 hover:border-orange-500/50 group/btn w-full sm:w-auto justify-center"
+          >
+            <Copy size={18} className="group-hover/btn:scale-110 transition-transform" />
+            <span className="font-medium">Copy Roast</span>
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 }
